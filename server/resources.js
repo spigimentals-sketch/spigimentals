@@ -1,0 +1,74 @@
+// Field maps between DB columns (snake_case) and API/frontend keys (camelCase,
+// matching what BeatRow/TrackRow/etc. already expect). `array: true` fields
+// are stored as JSON text and parsed/stringified transparently.
+export const RESOURCES = {
+  tracks: {
+    table: 'tracks',
+    fields: [
+      { col: 'title', key: 'title' },
+      { col: 'artist', key: 'artist' },
+      { col: 'bpm', key: 'bpm' },
+      { col: 'song_key', key: 'key' },
+      { col: 'mood', key: 'mood' },
+      { col: 'tags', key: 'tags', array: true },
+      { col: 'plays', key: 'plays' },
+      { col: 'play_count', key: 'playCount' },
+      { col: 'spotify_url', key: 'spotifyUrl' },
+      { col: 'youtube_url', key: 'youtubeUrl' },
+      { col: 'audio_url', key: 'audioUrl' },
+      { col: 'cover_url', key: 'coverUrl' },
+    ],
+  },
+  beats: {
+    table: 'beats',
+    fields: [
+      { col: 'title', key: 'title' },
+      { col: 'bpm', key: 'bpm' },
+      { col: 'song_key', key: 'key' },
+      { col: 'mood', key: 'mood' },
+      { col: 'price_basic', key: 'priceBasic' },
+      { col: 'price_premium', key: 'pricePremium' },
+      { col: 'price_exclusive', key: 'priceExclusive' },
+      { col: 'tags', key: 'tags', array: true },
+      { col: 'plays', key: 'plays' },
+      { col: 'play_count', key: 'playCount' },
+      { col: 'youtube_url', key: 'youtubeUrl' },
+      { col: 'audio_url', key: 'audioUrl' },
+      { col: 'cover_url', key: 'coverUrl' },
+    ],
+  },
+  packs: {
+    table: 'packs',
+    fields: [
+      { col: 'title', key: 'title' },
+      { col: 'description', key: 'description' },
+      { col: 'price', key: 'price' },
+      { col: 'sample_count', key: 'sampleCount' },
+      { col: 'tags', key: 'tags', array: true },
+    ],
+  },
+  plugins: {
+    table: 'plugins',
+    fields: [
+      { col: 'name', key: 'name' },
+      { col: 'tagline', key: 'tagline' },
+      { col: 'description', key: 'description' },
+      { col: 'price', key: 'price' },
+      { col: 'category', key: 'category' },
+      { col: 'formats', key: 'formats', array: true },
+      { col: 'os', key: 'os', array: true },
+      { col: 'version', key: 'version' },
+    ],
+  },
+  courses: {
+    table: 'courses',
+    fields: [
+      { col: 'title', key: 'title' },
+      { col: 'instructor', key: 'instructor' },
+      { col: 'description', key: 'description' },
+      { col: 'price', key: 'price' },
+      { col: 'lessons', key: 'lessons' },
+      { col: 'level', key: 'level' },
+    ],
+  },
+};
