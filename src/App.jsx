@@ -93,8 +93,14 @@ export default function App() {
           .mobile-toggle { display: flex; }
           .mobile-menu { display: flex; }
         }
-        @media (max-width: 420px) {
-          .nav-wordmark { display: none; }
+        .nav-bar { padding: 0 24px; }
+        .nav-wordmark { font-size: 18px; }
+        @media (max-width: 480px) {
+          .nav-bar { padding: 0 16px; }
+          .nav-wordmark { font-size: 15px; }
+        }
+        @media (max-width: 360px) {
+          .nav-wordmark { font-size: 13px; }
         }
         .player-icon { display: flex; }
         @media (max-width: 480px) {

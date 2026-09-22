@@ -57,10 +57,10 @@ export default function Nav() {
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: C.bg, borderBottom: `1px solid ${C.border}` }}>
       <div
+        className="nav-bar"
         style={{
           maxWidth: 1400,
           margin: '0 auto',
-          padding: '0 24px',
           height: 56,
           display: 'flex',
           alignItems: 'center',
@@ -92,7 +92,6 @@ export default function Nav() {
             className="nav-wordmark"
             style={{
               fontFamily: FONT,
-              fontSize: 18,
               fontWeight: 800,
               color: C.orange,
               letterSpacing: '-0.02em',
