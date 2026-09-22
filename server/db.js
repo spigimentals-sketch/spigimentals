@@ -1,10 +1,16 @@
 import { DatabaseSync } from 'node:sqlite';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync } from 'node:fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dbPath = process.env.DB_PATH || join(__dirname, 'data', 'spigimentals.db');
+
+// `data/` is gitignored (the .db file shouldn't be committed), so on a fresh
+// clone/deploy the directory itself doesn't exist yet — node:sqlite can't
+// create the file in a directory that isn't there.
+const dbDir = dirname(dbPath);
+if (!existsSync(dbDir)) mkdirSync(dbDir, { recursive: true });
 
 export const db = new DatabaseSync(dbPath);
 db.exec('PRAGMA foreign_keys = ON;');
