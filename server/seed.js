@@ -37,9 +37,9 @@ const SEED = {
   ],
 };
 
-export function seedIfEmpty() {
+export async function seedIfEmpty() {
   for (const [name, resource] of Object.entries(RESOURCES)) {
-    const { count } = db.prepare(`SELECT COUNT(*) as count FROM ${resource.table}`).get();
+    const { count } = await db.prepare(`SELECT COUNT(*) as count FROM ${resource.table}`).get();
     if (count > 0) continue;
 
     for (const row of SEED[name] || []) {
@@ -47,7 +47,7 @@ export function seedIfEmpty() {
       const colList = present.map((f) => `"${f.col}"`).join(', ');
       const placeholders = present.map(() => '?').join(', ');
       const values = present.map((f) => (f.array ? JSON.stringify(row[f.key] || []) : row[f.key]));
-      db.prepare(`INSERT INTO ${resource.table} (${colList}) VALUES (${placeholders})`).run(...values);
+      await db.prepare(`INSERT INTO ${resource.table} (${colList}) VALUES (${placeholders})`).run(...values);
     }
   }
 }

@@ -9,7 +9,7 @@ if (!email) {
   process.exit(1);
 }
 
-const info = db.prepare('UPDATE profiles SET is_admin = 1 WHERE email = ?').run(email);
+const info = await db.prepare('UPDATE profiles SET is_admin = 1 WHERE email = ?').run(email);
 if (info.changes === 0) {
   console.error(`No profile found for ${email}. Sign up on the site first, then run this again.`);
   process.exit(1);

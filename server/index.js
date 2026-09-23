@@ -21,7 +21,7 @@ import { uploadTrackAudio, uploadBeatAudio, uploadTrackCover, uploadBeatCover } 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-seedIfEmpty();
+await seedIfEmpty();
 
 const app = express();
 app.use(cors());
@@ -57,8 +57,8 @@ const RESOURCE_OPTIONS = {
     },
   },
   packs: {
-    beforeDelete: (row) => {
-      const files = db.prepare('SELECT url FROM pack_files WHERE pack_id = ?').all(row.id);
+    beforeDelete: async (row) => {
+      const files = await db.prepare('SELECT url FROM pack_files WHERE pack_id = ?').all(row.id);
       for (const f of files) removeCloudinaryFile(f.url, 'video');
     },
   },

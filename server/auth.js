@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from './db.js';
+import { ah } from './lib/asyncHandler.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-secret-change-me';
 if (!process.env.JWT_SECRET) {
@@ -41,8 +42,10 @@ export function requireAuth(req, res, next) {
 
 // Must run after requireAuth. Checks admin status fresh from the DB on every
 // request (not cached in the token), so revoking admin takes effect immediately.
-export function requireAdmin(req, res, next) {
-  const row = db.prepare('SELECT is_admin FROM profiles WHERE id = ?').get(req.userId);
+// Wrapped in ah() here (not at each call site) since Express 4 won't catch a
+// rejected promise from async middleware on its own.
+export const requireAdmin = ah(async (req, res, next) => {
+  const row = await db.prepare('SELECT is_admin FROM profiles WHERE id = ?').get(req.userId);
   if (!row?.is_admin) return res.status(403).json({ error: 'Admin access required.' });
   next();
-}
+});

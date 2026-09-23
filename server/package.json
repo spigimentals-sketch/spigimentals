@@ -4,14 +4,15 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=18"
   },
   "scripts": {
-    "dev": "node --watch --experimental-sqlite index.js",
-    "start": "node --experimental-sqlite index.js",
-    "make-admin": "node --experimental-sqlite scripts/make-admin.js"
+    "dev": "node --watch index.js",
+    "start": "node index.js",
+    "make-admin": "node scripts/make-admin.js"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.11.0",
     "cors": "^2.8.5",
