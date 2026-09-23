@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { C, FONT } from '../lib/theme';
 import { api } from '../lib/api';
 
@@ -25,13 +25,14 @@ const toPayload = (fields, values) =>
     })
   );
 
-export default function AdminSection({ resource, title, fields, renderRowExtra }) {
+export default function AdminSection({ resource, title, fields, renderRowExtra, orderable }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null); // 'new' | id | null
   const [values, setValues] = useState(() => emptyValues(fields));
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [reordering, setReordering] = useState(false);
 
   const load = () => {
     setLoading(true);
@@ -87,6 +88,26 @@ export default function AdminSection({ resource, title, fields, renderRowExtra }
       load();
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  // Swaps `item` with its neighbor, then resequences every item's `position`
+  // to match the new display order (0, 1, 2…) — this also fixes the ordering
+  // once and for all if items were still tied at the default position 0.
+  const moveItem = async (index, direction) => {
+    const otherIndex = index + direction;
+    if (otherIndex < 0 || otherIndex >= items.length) return;
+    const reordered = [...items];
+    [reordered[index], reordered[otherIndex]] = [reordered[otherIndex], reordered[index]];
+    setReordering(true);
+    setError('');
+    try {
+      await Promise.all(reordered.map((item, i) => api.updateContent(resource, item.id, { position: i })));
+      load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setReordering(false);
     }
   };
 
@@ -159,9 +180,29 @@ export default function AdminSection({ resource, title, fields, renderRowExtra }
         ) : items.length === 0 ? (
           <Row muted>Nothing here yet.</Row>
         ) : (
-          items.map((item) => (
+          items.map((item, index) => (
             <div key={item.id} style={{ borderBottom: `1px solid ${C.border}`, background: C.bg2 }}>
               <Row noBorder>
+                {orderable && (
+                  <div style={{ display: 'flex', flexDirection: 'column', marginRight: 6 }}>
+                    <button
+                      onClick={() => moveItem(index, -1)}
+                      disabled={reordering || index === 0}
+                      aria-label={`Move ${item.title || item.name} up`}
+                      style={reorderBtn}
+                    >
+                      <ChevronUp size={12} />
+                    </button>
+                    <button
+                      onClick={() => moveItem(index, 1)}
+                      disabled={reordering || index === items.length - 1}
+                      aria-label={`Move ${item.title || item.name} down`}
+                      style={reorderBtn}
+                    >
+                      <ChevronDown size={12} />
+                    </button>
+                  </div>
+                )}
                 <span style={{ fontFamily: FONT, fontSize: 13, color: C.text, fontWeight: 600, flex: 1, minWidth: 0 }}>
                   {item.title || item.name}
                 </span>
@@ -217,6 +258,19 @@ const inputStyle = {
   outline: 'none',
   boxSizing: 'border-box',
   resize: 'vertical',
+};
+
+const reorderBtn = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 20,
+  height: 14,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  color: C.textDim,
+  cursor: 'pointer',
 };
 
 const iconBtn = {

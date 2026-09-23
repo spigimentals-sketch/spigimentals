@@ -7,7 +7,7 @@ import { ah } from '../lib/asyncHandler.js';
 // `table` and every column name come only from server/resources.js (never
 // from request input), so string-interpolating them into SQL here is safe —
 // all request-supplied values still go through parameterized placeholders.
-export function createResourceRouter(table, fields, { beforeDelete } = {}) {
+export function createResourceRouter(table, fields, { beforeDelete, orderBy = 'id' } = {}) {
   const router = Router();
 
   const serialize = (row) => {
@@ -21,7 +21,7 @@ export function createResourceRouter(table, fields, { beforeDelete } = {}) {
   const get = db.prepare(`SELECT * FROM ${table} WHERE id = ?`);
 
   router.get('/', ah(async (_req, res) => {
-    const rows = await db.prepare(`SELECT * FROM ${table} ORDER BY id`).all();
+    const rows = await db.prepare(`SELECT * FROM ${table} ORDER BY ${orderBy}`).all();
     res.json({ items: rows.map(serialize) });
   }));
 

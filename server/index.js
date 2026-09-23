@@ -49,6 +49,7 @@ const RESOURCE_OPTIONS = {
       removeCloudinaryFile(row.audio_url, 'video');
       removeCloudinaryFile(row.cover_url, 'image');
     },
+    orderBy: 'position, id',
   },
   beats: {
     beforeDelete: (row) => {

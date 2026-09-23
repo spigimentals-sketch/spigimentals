@@ -63,6 +63,7 @@ const MIGRATIONS = [
   `ALTER TABLE tracks ADD COLUMN youtube_url TEXT`,
   `ALTER TABLE beats ADD COLUMN youtube_url TEXT`,
   `ALTER TABLE beats ADD COLUMN cover_url TEXT`,
+  `ALTER TABLE tracks ADD COLUMN position INTEGER NOT NULL DEFAULT 0`,
 ];
 for (const migration of MIGRATIONS) {
   try {

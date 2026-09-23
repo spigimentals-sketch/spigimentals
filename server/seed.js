@@ -39,10 +39,16 @@ const SEED = {
 
 export async function seedIfEmpty() {
   for (const [name, resource] of Object.entries(RESOURCES)) {
-    const { count } = await db.prepare(`SELECT COUNT(*) as count FROM ${resource.table}`).get();
-    if (count > 0) continue;
+    // Checked per-row (by title/name) rather than "table has any rows at
+    // all" — the latter let this run insert duplicate seed rows every time
+    // it overlapped with another still-starting instance (e.g. two dev
+    // server restarts close together, or an overlap during a redeploy).
+    const idField = resource.fields.find((f) => f.key === 'title' || f.key === 'name');
 
     for (const row of SEED[name] || []) {
+      const existing = await db.prepare(`SELECT id FROM ${resource.table} WHERE ${idField.col} = ?`).get(row[idField.key]);
+      if (existing) continue;
+
       const present = resource.fields.filter((f) => row[f.key] !== undefined);
       const colList = present.map((f) => `"${f.col}"`).join(', ');
       const placeholders = present.map(() => '?').join(', ');

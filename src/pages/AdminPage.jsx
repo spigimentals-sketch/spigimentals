@@ -14,6 +14,7 @@ const SECTIONS = [
   {
     resource: 'tracks',
     title: 'Catalog tracks',
+    orderable: true,
     fields: [
       { key: 'title', label: 'Title', type: 'text' },
       { key: 'artist', label: 'Artist', type: 'text' },
@@ -132,6 +133,7 @@ export default function AdminPage() {
             title={s.title}
             fields={s.fields}
             renderRowExtra={s.renderRowExtra}
+            orderable={s.orderable}
           />
         ))}
       </div>

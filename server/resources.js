@@ -17,6 +17,7 @@ export const RESOURCES = {
       { col: 'youtube_url', key: 'youtubeUrl' },
       { col: 'audio_url', key: 'audioUrl' },
       { col: 'cover_url', key: 'coverUrl' },
+      { col: 'position', key: 'position' },
     ],
   },
   beats: {
