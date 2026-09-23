@@ -29,8 +29,10 @@ const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB — plenty for cover art
 // This is what makes the server deployable on hosts with no persistent disk.
 export const uploadTrackAudio = multer({ storage: multer.memoryStorage(), fileFilter: audioFileFilter, limits: { fileSize: MAX_SIZE } }).single('audio');
 export const uploadBeatAudio = multer({ storage: multer.memoryStorage(), fileFilter: audioFileFilter, limits: { fileSize: MAX_SIZE } }).single('audio');
+export const uploadCoverSongAudio = multer({ storage: multer.memoryStorage(), fileFilter: audioFileFilter, limits: { fileSize: MAX_SIZE } }).single('audio');
 export const uploadTrackCover = multer({ storage: multer.memoryStorage(), fileFilter: imageFileFilter, limits: { fileSize: MAX_IMAGE_SIZE } }).single('cover');
 export const uploadBeatCover = multer({ storage: multer.memoryStorage(), fileFilter: imageFileFilter, limits: { fileSize: MAX_IMAGE_SIZE } }).single('cover');
+export const uploadCoverSongArt = multer({ storage: multer.memoryStorage(), fileFilter: imageFileFilter, limits: { fileSize: MAX_IMAGE_SIZE } }).single('cover');
 export const uploadPackSamples = multer({ storage: multer.memoryStorage(), fileFilter: audioFileFilter, limits: { fileSize: MAX_SIZE } }).array('samples', 20);
 
 // Wraps a multer middleware so validation/size errors come back as a clean

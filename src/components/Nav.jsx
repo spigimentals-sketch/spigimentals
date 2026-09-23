@@ -9,6 +9,7 @@ import CartButton from './Cart/CartButton';
 const LINKS = [
   { to: '/',           label: 'Home',      end: true },
   { to: '/catalog',    label: 'Catalog' },
+  { to: '/covers',     label: 'Covers' },
   { to: '/beats',      label: 'Beats' },
   { to: '/packs',      label: 'Samples' },
   { to: '/plugins',    label: 'Plugins' },

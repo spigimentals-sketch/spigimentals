@@ -11,6 +11,7 @@ import CartDrawer from './components/Cart/CartDrawer';
 
 import HomePage from './pages/HomePage';
 import CatalogPage from './pages/CatalogPage';
+import CoversPage from './pages/CoversPage';
 import BeatsPage from './pages/BeatsPage';
 import PacksPage from './pages/PacksPage';
 import PluginsPage from './pages/PluginsPage';
@@ -166,6 +167,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<HomePage setCurrentTrack={handleSetCurrentTrack} currentTrack={currentTrack} />} />
                 <Route path="/catalog" element={<CatalogPage setCurrentTrack={handleSetCurrentTrack} currentTrack={currentTrack} />} />
+                <Route path="/covers" element={<CoversPage setCurrentTrack={handleSetCurrentTrack} currentTrack={currentTrack} />} />
                 <Route path="/beats" element={<BeatsPage setCurrentTrack={handleSetCurrentTrack} currentTrack={currentTrack} />} />
                 <Route path="/packs" element={<PacksPage />} />
                 <Route path="/plugins" element={<PluginsPage />} />

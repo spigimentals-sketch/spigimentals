@@ -122,6 +122,21 @@ export default function TrackVideoCard({ track, isPlaying, onPlay }) {
         >
           {track.artist} · {track.bpm} BPM · {track.key}
         </div>
+        {track.originalArtist && (
+          <div
+            style={{
+              fontFamily: FONT,
+              fontSize: 11,
+              color: C.orange,
+              marginTop: 2,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Originally by {track.originalArtist}
+          </div>
+        )}
         <div style={{ fontFamily: FONT, fontSize: 11, color: C.textMute, marginTop: 6 }}>
           {track.plays} plays
         </div>

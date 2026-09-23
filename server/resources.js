@@ -20,6 +20,25 @@ export const RESOURCES = {
       { col: 'position', key: 'position' },
     ],
   },
+  covers: {
+    table: 'covers',
+    fields: [
+      { col: 'title', key: 'title' },
+      { col: 'artist', key: 'artist' },
+      { col: 'original_artist', key: 'originalArtist' },
+      { col: 'bpm', key: 'bpm' },
+      { col: 'song_key', key: 'key' },
+      { col: 'mood', key: 'mood' },
+      { col: 'tags', key: 'tags', array: true },
+      { col: 'plays', key: 'plays' },
+      { col: 'play_count', key: 'playCount' },
+      { col: 'spotify_url', key: 'spotifyUrl' },
+      { col: 'youtube_url', key: 'youtubeUrl' },
+      { col: 'audio_url', key: 'audioUrl' },
+      { col: 'cover_url', key: 'coverUrl' },
+      { col: 'position', key: 'position' },
+    ],
+  },
   beats: {
     table: 'beats',
     fields: [

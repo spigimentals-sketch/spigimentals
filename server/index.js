@@ -17,7 +17,7 @@ import { createPlaysRouter } from './routes/plays.js';
 import { visitsRouter } from './routes/visits.js';
 import { packFilesRouter } from './routes/packFiles.js';
 import { removeCloudinaryFile } from './lib/cloudinary.js';
-import { uploadTrackAudio, uploadBeatAudio, uploadTrackCover, uploadBeatCover } from './lib/upload.js';
+import { uploadTrackAudio, uploadBeatAudio, uploadCoverSongAudio, uploadTrackCover, uploadBeatCover, uploadCoverSongArt } from './lib/upload.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -34,10 +34,13 @@ app.use('/api/cart', cartRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/tracks/:id/audio', createSingleFileRouter('tracks', 'audio_url', 'tracks', uploadTrackAudio, 'audio', 'video'));
 app.use('/api/beats/:id/audio', createSingleFileRouter('beats', 'audio_url', 'beats', uploadBeatAudio, 'audio', 'video'));
+app.use('/api/covers/:id/audio', createSingleFileRouter('covers', 'audio_url', 'covers-songs', uploadCoverSongAudio, 'audio', 'video'));
 app.use('/api/tracks/:id/cover', createSingleFileRouter('tracks', 'cover_url', 'covers/tracks', uploadTrackCover, 'cover', 'image'));
 app.use('/api/beats/:id/cover', createSingleFileRouter('beats', 'cover_url', 'covers/beats', uploadBeatCover, 'cover', 'image'));
+app.use('/api/covers/:id/cover', createSingleFileRouter('covers', 'cover_url', 'covers/covers-songs', uploadCoverSongArt, 'cover', 'image'));
 app.use('/api/tracks/:id/play', createPlaysRouter('tracks'));
 app.use('/api/beats/:id/play', createPlaysRouter('beats'));
+app.use('/api/covers/:id/play', createPlaysRouter('covers'));
 app.use('/api/visits', visitsRouter);
 app.use('/api/packs/:packId/files', packFilesRouter);
 
@@ -45,6 +48,13 @@ app.use('/api/packs/:packId/files', packFilesRouter);
 // cascade on pack_files only removes DB rows, not the remote files.
 const RESOURCE_OPTIONS = {
   tracks: {
+    beforeDelete: (row) => {
+      removeCloudinaryFile(row.audio_url, 'video');
+      removeCloudinaryFile(row.cover_url, 'image');
+    },
+    orderBy: 'position, id',
+  },
+  covers: {
     beforeDelete: (row) => {
       removeCloudinaryFile(row.audio_url, 'video');
       removeCloudinaryFile(row.cover_url, 'image');

@@ -19,6 +19,7 @@ const cardGrid = {
 export default function HomePage({ setCurrentTrack, currentTrack }) {
   const { items: beats } = useContent('beats');
   const { items: tracks } = useContent('tracks');
+  const { items: covers } = useContent('covers');
   const { items: packs } = useContent('packs');
   const [licensingBeat, setLicensingBeat] = useState(null);
 
@@ -32,6 +33,12 @@ export default function HomePage({ setCurrentTrack, currentTrack }) {
     if (currentTrack?.kind === 'catalog' && currentTrack.id === track.id) return setCurrentTrack(null);
     setCurrentTrack({ kind: 'catalog', id: track.id, title: track.title, artist: track.artist, spotifyUrl: track.spotifyUrl, youtubeUrl: track.youtubeUrl, audioUrl: track.audioUrl });
     api.recordPlay('tracks', track.id).catch(() => {});
+  };
+
+  const playCover = (cover) => {
+    if (currentTrack?.kind === 'cover' && currentTrack.id === cover.id) return setCurrentTrack(null);
+    setCurrentTrack({ kind: 'cover', id: cover.id, title: cover.title, artist: cover.artist, spotifyUrl: cover.spotifyUrl, youtubeUrl: cover.youtubeUrl, audioUrl: cover.audioUrl });
+    api.recordPlay('covers', cover.id).catch(() => {});
   };
 
   return (
@@ -101,6 +108,28 @@ export default function HomePage({ setCurrentTrack, currentTrack }) {
               track={track}
               isPlaying={currentTrack?.kind === 'catalog' && currentTrack.id === track.id}
               onPlay={playTrack}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Covers */}
+      <div style={{ padding: '8px 24px', maxWidth: 1400, margin: '0 auto' }}>
+        <SectionHeader
+          title="Covers"
+          action={
+            <Link to="/covers" style={sectionLink}>
+              View all <ArrowRight size={13} />
+            </Link>
+          }
+        />
+        <div className="stagger-list" style={cardGrid}>
+          {covers.slice(0, 3).map((cover) => (
+            <TrackVideoCard
+              key={cover.id}
+              track={cover}
+              isPlaying={currentTrack?.kind === 'cover' && currentTrack.id === cover.id}
+              onPlay={playCover}
             />
           ))}
         </div>

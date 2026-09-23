@@ -34,6 +34,29 @@ const SECTIONS = [
     ),
   },
   {
+    resource: 'covers',
+    title: 'Covers',
+    orderable: true,
+    fields: [
+      { key: 'title', label: 'Title', type: 'text' },
+      { key: 'artist', label: 'Artist (performer)', type: 'text' },
+      { key: 'originalArtist', label: 'Originally by', type: 'text' },
+      { key: 'bpm', label: 'BPM', type: 'number' },
+      { key: 'key', label: 'Key', type: 'text' },
+      { key: 'mood', label: 'Mood', type: 'text' },
+      { key: 'tags', label: 'Tags (comma-separated)', type: 'tags' },
+      { key: 'plays', label: 'Plays label', type: 'text' },
+      { key: 'spotifyUrl', label: 'Spotify URL', type: 'text' },
+      { key: 'youtubeUrl', label: 'YouTube URL (takes priority when set)', type: 'text' },
+    ],
+    renderRowExtra: (cover, reload) => (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <AudioUploadControl resource="covers" item={cover} onChange={reload} />
+        <CoverUploadControl resource="covers" item={cover} onChange={reload} />
+      </div>
+    ),
+  },
+  {
     resource: 'beats',
     title: 'Beats',
     fields: [

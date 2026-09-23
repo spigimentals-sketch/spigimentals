@@ -131,6 +131,29 @@ CREATE TABLE IF NOT EXISTS tracks (
   created_at    TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- Cover songs — same shape as tracks (still a produced, playable track),
+-- kept in its own table so it gets its own catalog page/homepage section
+-- distinct from original releases. `original_artist` credits whoever wrote
+-- the song being covered; `artist` is the performer, same meaning as tracks.
+CREATE TABLE IF NOT EXISTS covers (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  title           TEXT NOT NULL,
+  artist          TEXT,
+  original_artist TEXT,
+  bpm             INTEGER,
+  song_key        TEXT,
+  mood            TEXT,
+  tags            TEXT NOT NULL DEFAULT '[]',
+  plays           TEXT,
+  play_count      INTEGER NOT NULL DEFAULT 0,
+  spotify_url     TEXT,
+  youtube_url     TEXT,
+  audio_url       TEXT,
+  cover_url       TEXT,
+  position        INTEGER NOT NULL DEFAULT 0,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS beats (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
   title           TEXT NOT NULL,
