@@ -84,8 +84,30 @@ export default function HomePage({ setCurrentTrack, currentTrack }) {
         </div>
       </div>
 
-      {/* Featured beats */}
+      {/* Latest catalog */}
       <div style={{ padding: '8px 24px', maxWidth: 1400, margin: '0 auto' }}>
+        <SectionHeader
+          title="Latest releases"
+          action={
+            <Link to="/catalog" style={sectionLink}>
+              View all <ArrowRight size={13} />
+            </Link>
+          }
+        />
+        <div className="stagger-list" style={cardGrid}>
+          {tracks.slice(0, 3).map((track) => (
+            <TrackVideoCard
+              key={track.id}
+              track={track}
+              isPlaying={currentTrack?.kind === 'catalog' && currentTrack.id === track.id}
+              onPlay={playTrack}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Featured beats */}
+      <div style={{ padding: '40px 24px', maxWidth: 1400, margin: '0 auto' }}>
         <SectionHeader
           title="Featured beats"
           action={
@@ -102,28 +124,6 @@ export default function HomePage({ setCurrentTrack, currentTrack }) {
               isPlaying={currentTrack?.kind === 'beat' && currentTrack.id === beat.id}
               onPlay={playBeat}
               onLicense={setLicensingBeat}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Latest catalog */}
-      <div style={{ padding: '40px 24px', maxWidth: 1400, margin: '0 auto' }}>
-        <SectionHeader
-          title="Latest releases"
-          action={
-            <Link to="/catalog" style={sectionLink}>
-              View all <ArrowRight size={13} />
-            </Link>
-          }
-        />
-        <div className="stagger-list" style={cardGrid}>
-          {tracks.slice(0, 3).map((track) => (
-            <TrackVideoCard
-              key={track.id}
-              track={track}
-              isPlaying={currentTrack?.kind === 'catalog' && currentTrack.id === track.id}
-              onPlay={playTrack}
             />
           ))}
         </div>
